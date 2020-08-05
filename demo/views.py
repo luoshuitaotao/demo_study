@@ -5,11 +5,15 @@ from django.contrib import messages
 from .flight import Flight
 from django.http import HttpResponse
 import requests
+import ssl
 
 
 url = "https://test.api.amadeus.com/v1/security/oauth2/token"
 payload = 'client_id=%20lzd8nIFKagMxZX6IoSZpLel6fILPQqCpN&client_secret=16Sd4AE2Kv2f7DyZ&grant_type=client_credentials'
-headers= {}
+headers= {
+    'Authorization': 'Basic bHpkOG5JRkthZ014Wlg2SW9TWnBMZWw2ZklMUFFxQ3A6MTZTZDRBRTJLdjJmN0R5Wg==',
+    'Content-Type': 'application/x-www-form-urlencoded'
+}
 
 response = requests.request("POST", url, headers=headers, data = payload)
 
@@ -100,3 +104,5 @@ def get_city_airport_list(data):
     result = list(dict.fromkeys(result))
     
     return json.dumps(result)
+
+ssl._create_default_https_context = ssl._create_unverified_context
